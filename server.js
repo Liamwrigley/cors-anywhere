@@ -46,4 +46,16 @@ cors_proxy.createServer({
   },
 }).listen(port, host, function() {
   console.log('Running CORS Anywhere on ' + host + ':' + port);
-});
+}).on("request", function (req, res) {
+    // Log the request URL to the console
+    console.log("Request URL:", req.url);
+    if (req.statusCode >= 400) {
+      console.error("Error response:", req.statusCode, req.statusMessage);
+    } else {
+      console.log("Response status:", res.statusCode, res.statusMessage);
+    }
+  })
+  .on("error", function (err) {
+    // Log any errors that occur during the request
+    console.error("Error occurred:", err.message);
+  });
